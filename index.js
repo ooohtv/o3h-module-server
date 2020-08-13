@@ -24,6 +24,7 @@ app.use('/api/', createProxyMiddleware({
         }
     }
 ));
+app.get('/o3h.dev.txt', (req, res) => res.send('OK'));
 app.listen(port, function () {
     console.log(`Listening on http://localhost:${port}/`);
 });
