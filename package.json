@@ -1,0 +1,27 @@
+{
+  "name": "o3h-module-server",
+  "version": "1.0.0",
+  "description": "A simple http server for static Oooh module content & the Oooh API",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "bin": {
+    "o3h-module-server": "./bin/o3h-module-server"
+  },
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/roger-o3h/o3h-module-server.git"
+  },
+  "author": "Oooh, Inc",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/roger-o3h/o3h-module-server/issues"
+  },
+  "homepage": "https://github.com/roger-o3h/o3h-module-server#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "http-proxy-middleware": "^1.0.5"
+  }
+}
