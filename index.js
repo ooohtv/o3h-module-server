@@ -1,11 +1,13 @@
 const fs = require('fs');
 const path = require('path');
+const https = require('https');
 const express = require('express');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
 // commandline options
 let root = '.';
-let port = 3000;
+let port = null;
+let useHttps = false;
 let useApiProxy = true;
 let caseSensitive = true;
 for (let i = 0; i < process.argv.length; i++) {
@@ -22,6 +24,12 @@ for (let i = 0; i < process.argv.length; i++) {
     if (arg === '--no-case-sensitive' || arg === '-C') {
         caseSensitive = false;
     }
+    if (arg === '--https' || arg === '-s') {
+        useHttps = true;
+    }
+}
+if (port == null) {
+    port = useHttps ? 8443 : 3000;
 }
 
 root = path.resolve(root);
@@ -61,6 +69,28 @@ if (caseSensitive) {
 }
 app.use(express.static(root));
 app.get('/o3h.dev.txt', (req, res) => res.send('OK'));
-app.listen(port, function () {
-    console.log(`Serving ${root} on http://localhost:${port}/`);
-});
+
+if (useHttps) {
+    try {
+        const opt = {
+            key: fs.readFileSync(path.join(__dirname, 'key.pem'), 'utf8'),
+            cert: fs.readFileSync(path.join(__dirname, 'cert.pem'), 'utf8'),
+            passphrase: process.env.HTTPS_PASSPHRASE || ''
+        };
+        https.createServer(opt, app).listen(port, () => {
+            console.log(`Serving ${root} on https://localhost:${port}/`);
+        });
+    } catch {
+        console.error(`Generate a certificate:
+openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -days 365
+
+Make it passphrase-less:
+openssl rsa -in key.pem -out newkey.pem && mv newkey.pem key.pem
+        `);
+        process.exit(-1);
+    }
+} else {
+    app.listen(port, () => {
+        console.log(`Serving ${root} on http://localhost:${port}/`);
+    });
+}
