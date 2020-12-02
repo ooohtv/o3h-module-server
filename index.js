@@ -58,6 +58,7 @@ if (useApiProxy) {
         const str = fs.readFileSync(filePath, 'utf-8');
         res.setHeader('Content-Type', 'text/javascript');
         res.write(str.replace(/const LOCAL_DEVELOPMENT\s*=\s*false;?/, 'const LOCAL_DEVELOPMENT = true; // inserted by o3h-module-server'));
+        res.end();
     });
 }
 
