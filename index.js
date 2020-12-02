@@ -4,11 +4,11 @@ const https = require('https');
 const express = require('express');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
-// commandline options
+// commandline options --------------------------------
 let root = '.';
 let port = null;
 let useHttps = false;
-let useApiProxy = true;
+let useApiProxy = false;
 let caseSensitive = true;
 for (let i = 0; i < process.argv.length; i++) {
     const arg = process.argv[i];
@@ -18,8 +18,8 @@ for (let i = 0; i < process.argv.length; i++) {
     if ((arg === '--root' || arg === '-r') && i < process.argv.length - 1) {
         root = process.argv[++i];
     }
-    if (arg === '--no-proxy-api' || arg === '-A') {
-        useApiProxy = false;
+    if (arg === '--proxy-api' || arg === '-a') {
+        useApiProxy = true;
     }
     if (arg === '--no-case-sensitive' || arg === '-C') {
         caseSensitive = false;
@@ -32,6 +32,7 @@ if (port == null) {
     port = useHttps ? 8443 : 3000;
 }
 
+// Decide how to proxy o3h.js -----------------------------
 root = path.resolve(root);
 const app = express();
 if (useApiProxy) {
@@ -48,14 +49,25 @@ if (useApiProxy) {
             }
         }
     ));
+} else {
+    app.use('/api/o3h.js', (req, res, next) => {
+        let filePath = path.join(root, '/api/o3h.js');
+        if (!fs.existsSync(filePath)) {
+            return next();
+        }
+        const str = fs.readFileSync(filePath, 'utf-8');
+        res.setHeader('Content-Type', 'text/javascript');
+        res.write(str.replace(/const LOCAL_DEVELOPMENT\s*=\s*false;?/, 'const LOCAL_DEVELOPMENT = true; // inserted by o3h-module-server'));
+    });
 }
+
+// Case sensitivity -----------------------------
 if (caseSensitive) {
     app.use((req, res, next) => {
         const absPath = path.resolve(root, './' + req.path);
         if (!fs.existsSync(absPath)) {
             // if the file does not exist, handle the 404 normally
-            next();
-            return;
+            return next();
         }
         const pathParts = path.parse(absPath);
         const isExactCase = fs.readdirSync(pathParts.dir).some(file => file === pathParts.base);
@@ -67,9 +79,20 @@ if (caseSensitive) {
         }
     });
 }
+
+// Core serving ----------------------------
+if (useHttps) {
+    // add HTTPS-only headers
+    app.use(function (req, res, next) {
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        return next();
+    });
+}
 app.use(express.static(root));
+// Possible future alternative to LOCAL_DEVELOPMENT flag
 app.get('/o3h.dev.txt', (req, res) => res.send('OK'));
 
+// Local HTTPS -----------------------------
 if (useHttps) {
     try {
         const opt = {
@@ -92,5 +115,10 @@ openssl rsa -in key.pem -out newkey.pem && mv newkey.pem key.pem
 } else {
     app.listen(port, () => {
         console.log(`Serving ${root} on http://localhost:${port}/`);
+        if (!useApiProxy) {
+            console.log('Serving o3h.js from local filesystem. You might try symbolic linking it to the source if you have it!');
+        } else {
+            console.log('Proxying o3h.js from https://www.oooh.tv/.');
+        }
     });
 }
