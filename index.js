@@ -27,6 +27,10 @@ for (let i = 0; i < process.argv.length; i++) {
     if (arg === '--https' || arg === '-s') {
         useHttps = true;
     }
+    if (arg === '--help' || arg === '-h') {
+        console.log(fs.readFileSync(__dirname + '/README.md', 'utf-8'));
+        process.exit(0);
+    }
 }
 if (port == null) {
     port = useHttps ? 8443 : 3000;
@@ -89,7 +93,7 @@ if (useHttps) {
         return next();
     });
 }
-app.use(express.static(root));
+app.use(express.static(root, { etag: false, maxAge: 0, lastModified: false, immutable: false }));
 // Possible future alternative to LOCAL_DEVELOPMENT flag
 app.get('/o3h.dev.txt', (req, res) => res.send('OK'));
 
