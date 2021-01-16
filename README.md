@@ -19,7 +19,15 @@ in the directory you would like to serve from.
 
 `--root <path>` or `-r <path>` — The directory to serve files from as the webserver root, defaults to current directory (`.`)
 
-`--no-proxy-api` or `-A` — Don't proxy calls to the Oooh API, serve locally, e.g. if you have made modifications to the API. Default is to proxy requests to `/api/`.
+`--proxy-api` or `-a` — Proxy calls to the Oooh API. Defaults to false.
 
-`--no-case-sensitive` or `-C` — Turn off case sensitivity, serve files regardless of their case. This is a bad idea, our server is case sensitive, which is the default.
+When true, calls to /api/o3h.js are proxied to www.oooh.tv.
+
+When false, calls to /api/o3h.js look for that file relative to the root path.
+
+In either case, LOCAL_DEVELOPMENT will be modified to `true` for you.
+
+`--no-case-sensitive` or `-C` — Turn OFF case sensitivity, serve files regardless of their case. This is a bad idea, our server is case sensitive, which is the default. Leaving this on helps you debug potential issues
+
+`--https` or `-s` — Serve using https. You'll need a `key.pem` and `cert.pem` file; instructions to generate them will be provided if not found.
 
