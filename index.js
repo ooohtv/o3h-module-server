@@ -101,8 +101,8 @@ app.get('/o3h.dev.txt', (req, res) => res.send('OK'));
 if (useHttps) {
     try {
         const opt = {
-            key: fs.readFileSync(path.join(__dirname, 'key.pem'), 'utf8'),
-            cert: fs.readFileSync(path.join(__dirname, 'cert.pem'), 'utf8'),
+            key: fs.readFileSync(path.join(__dirname, 'localhost.key'), 'utf8'),
+            cert: fs.readFileSync(path.join(__dirname, 'localhost.crt'), 'utf8'),
             passphrase: process.env.HTTPS_PASSPHRASE || ''
         };
         https.createServer(opt, app).listen(port, () => {
@@ -110,10 +110,7 @@ if (useHttps) {
         });
     } catch {
         console.error(`Generate a certificate:
-openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -days 365
-
-Make it passphrase-less:
-openssl rsa -in key.pem -out newkey.pem && mv newkey.pem key.pem
+openssl req -x509 -newkey rsa:4096 -nodes -keyout key.pem -out cert.pem -days 365
         `);
         process.exit(-1);
     }
