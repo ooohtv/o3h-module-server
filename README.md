@@ -3,7 +3,7 @@ A simple http server for static Oooh module content &amp; the Oooh API. Serves f
 
 ## To install
 
-```npm install -g git:github.com/roger-o3h/o3h-module-server```
+```npm install -g roger-o3h/o3h-module-server```
 
 ## To run
 
