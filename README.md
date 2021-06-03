@@ -1,15 +1,16 @@
 # o3h-module-server
+
 A simple http server for static Oooh module content &amp; the Oooh API. Serves from your local directory and proxies /api/ URLs to https://oooh.tv/api/.
 
 ## To install
 
-```npm install -g ooohtv/o3h-module-server```
+`npm install -g ooohtv/o3h-module-server`
 
 ## To run
 
 Just run
 
-```o3h-module-server```
+`o3h-module-server`
 
 in the directory you would like to serve from.
 
@@ -19,15 +20,14 @@ in the directory you would like to serve from.
 
 `--root <path>` or `-r <path>` — The directory to serve files from as the webserver root, defaults to current directory (`.`)
 
-`--proxy-api` or `-a` — Proxy calls to the Oooh API. Defaults to false.
+`--api <path>` or `-a <path>` — Proxy calls to the Oooh API to the local filesystem, defaults to the live version on www.oooh.tv.
 
-When true, calls to /api/o3h.js are proxied to www.oooh.tv.
+Provide a path, and requests for the relative path "/api/o3h.js" are served from <path>/o3h.js.
 
-When false, calls to /api/o3h.js look for that file relative to the root path.
+Omit this argument and requests for the relative path "/api/o3h.js" are proxied to https://www.oooh.tv/api/o3h.js.
 
-In either case, LOCAL_DEVELOPMENT will be modified to `true` for you.
+In both cases, LOCAL_DEVELOPMENT will be modified to `true` for you.
 
 `--no-case-sensitive` or `-C` — Turn OFF case sensitivity, serve files regardless of their case. This is a bad idea, our server is case sensitive, which is the default. Leaving this on helps you debug potential issues
 
 `--https` or `-s` — Serve using https. You'll need a `key.pem` and `cert.pem` file; instructions to generate them will be provided if not found.
-
