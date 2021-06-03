@@ -1,6 +1,6 @@
 # o3h-module-server
 
-A simple http server for static Oooh module content &amp; the Oooh API. Serves from your local directory and proxies /api/ URLs to https://oooh.tv/api/.
+A simple http server for static Oooh module content &amp; the Oooh API. Serves from your local directory and proxies /api/ URLs to www.oooh.tv.
 
 ## To install
 
@@ -22,9 +22,9 @@ in the directory you would like to serve from.
 
 `--api <path>` or `-a <path>` — Proxy calls to the Oooh API to the local filesystem, defaults to the live version on www.oooh.tv.
 
-Provide a path, and requests for the relative path "/api/o3h.js" are served from <path>/o3h.js.
+Provide a path, and requests for the relative path "/api/o3h.js" are served from `<path>/o3h.js`.
 
-Omit this argument and requests for the relative path "/api/o3h.js" are proxied to https://www.oooh.tv/api/o3h.js.
+Omit this argument and requests for the relative path "/api/o3h.js" are proxied to http://www.oooh.tv/api/o3h.js.
 
 In both cases, LOCAL_DEVELOPMENT will be modified to `true` for you.
 
