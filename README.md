@@ -1,6 +1,6 @@
 # o3h-module-server
 
-A simple http server for static Oooh module content &amp; the Oooh API. Serves from your local directory and proxies /api/ URLs to www.oooh.tv.
+A simple http server for static Oooh module content &amp; the Oooh API. Serves from your local directory and proxies requests for "/api/" URLs. See the [Quick Start](https://www.oooh.tv/docs/tutorial-30-quickStart.html) guide for more.
 
 ## To install
 
@@ -8,9 +8,9 @@ A simple http server for static Oooh module content &amp; the Oooh API. Serves f
 
 ## To run
 
-Just run
-
-`o3h-module-server`
+In its simplest form, run
+ 
+```o3h-module-server```
 
 in the directory you would like to serve from.
 
@@ -26,7 +26,7 @@ Provide a path, and requests for the relative path "/api/o3h.js" are served from
 
 Omit this argument and requests for the relative path "/api/o3h.js" are proxied to http://www.oooh.tv/api/o3h.js.
 
-In both cases, LOCAL_DEVELOPMENT will be modified to `true` for you.
+In both cases, the `LOCAL_DEVELOPMENT` variable will be modified to `true` for you.
 
 `--no-case-sensitive` or `-C` — Turn OFF case sensitivity, serve files regardless of their case. This is a bad idea, our server is case sensitive, which is the default. Leaving this on helps you debug potential issues
 
