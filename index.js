@@ -118,9 +118,9 @@ openssl req -x509 -newkey rsa:4096 -nodes -keyout key.pem -out cert.pem -days 36
     app.listen(port, () => {
         console.log(`Serving ${root} on http://localhost:${port}/`);
         if (!useApiProxy) {
-            console.log('Serving o3h.js from local filesystem. You might try symbolic linking it to the source if you have it!');
+            console.log(`Serving o3h.js from ${root}/api/o3h.js. If you have a copy of the SDK you might want to symbolic link this file to it!`);
         } else {
-            console.log('Proxying o3h.js from https://www.oooh.tv/.');
+            console.log('Proxying o3h.js from https://www.oooh.tv/api/o3h.js.');
         }
     });
 }
