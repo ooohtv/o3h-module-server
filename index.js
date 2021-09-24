@@ -43,7 +43,7 @@ if (!apiRoot) {
   app.use(
     '/api/',
     createProxyMiddleware({
-      target: 'http://www.oooh.tv/',
+      target: 'http://module.oooh.io/',
       changeOrigin: true,
       autoRewrite: true,
       followRedirects: true,
@@ -135,7 +135,7 @@ openssl req -x509 -newkey rsa:4096 -nodes -keyout key.pem -out cert.pem -days 36
         `Serving o3h.js from ${apiRoot}/o3h.js. If you have a copy of the SDK you might want to symbolic link this file to it!`
       );
     } else {
-      console.log('Proxying o3h.js from http://www.oooh.tv/api/o3h.js.');
+      console.log('Proxying o3h.js from http://module.oooh.io/api/o3h.js.');
     }
   });
 }
