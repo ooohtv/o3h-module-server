@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const https = require('https');
 const express = require('express');
-const { createProxyMiddleware } = require('http-proxy-middleware');
+const { createProxyMiddleware, responseInterceptor } = require('http-proxy-middleware');
 
 // commandline options --------------------------------
 let root = '.';
@@ -43,16 +43,19 @@ if (!apiRoot) {
   app.use(
     '/api/',
     createProxyMiddleware({
-      target: 'http://module.oooh.io/',
+      target: 'https://module.oooh.io/',
       changeOrigin: true,
       autoRewrite: true,
       followRedirects: true,
-      onProxyRes: (proxyRes, req, res) => {
+      selfHandleResponse: true,
+      onProxyRes: responseInterceptor(async (responseBuffer, proxyRes, req, res) => {
+        let response;
         if (req.url.endsWith('/o3h.js')) {
-          res.setHeader('Content-Type', 'text/javascript');
-          res.write('const LOCAL_DEVELOPMENT = true; //');
+          response = 'const LOCAL_DEVELOPMENT = true; //';
         }
-      },
+        response += responseBuffer.toString('utf8');
+        return response;
+      }),
     })
   );
 } else {
@@ -135,7 +138,7 @@ openssl req -x509 -newkey rsa:4096 -nodes -keyout key.pem -out cert.pem -days 36
         `Serving o3h.js from ${apiRoot}/o3h.js. If you have a copy of the SDK you might want to symbolic link this file to it!`
       );
     } else {
-      console.log('Proxying o3h.js from http://module.oooh.io/api/o3h.js.');
+      console.log('Proxying o3h.js from https://module.oooh.io/api/o3h.js.');
     }
   });
 }

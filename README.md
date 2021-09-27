@@ -24,7 +24,7 @@ in the directory you would like to serve from.
 
 Provide a path, and requests for the relative path "/api/o3h.js" are served from `<path>/o3h.js`.
 
-Omit this argument and requests for the relative path "/api/o3h.js" are proxied to http://module.oooh.io/api/o3h.js.
+Omit this argument and requests for the relative path "/api/o3h.js" are proxied to https://module.oooh.io/api/o3h.js.
 
 In both cases, the `LOCAL_DEVELOPMENT` variable will be modified to `true` for you.
 
