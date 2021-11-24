@@ -74,6 +74,11 @@ if (!apiRoot) {
     );
     res.end();
   });
+  app.get('/api/o3hLoader.js', (req, res, next) => {
+    res.setHeader('Content-Type', 'text/javascript');
+    res.write(`export default (async () => await import("./o3h.js"))()`);
+    res.end();
+  });
 }
 
 // Case sensitivity -----------------------------
