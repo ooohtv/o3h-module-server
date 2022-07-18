@@ -10,6 +10,7 @@ let port = null;
 let useHttps = false;
 let apiRoot = null;
 let caseSensitive = true;
+let useCaching = false;
 for (let i = 0; i < process.argv.length; i++) {
   const arg = process.argv[i];
   if ((arg === '--port' || arg === '-p') && i < process.argv.length - 1) {
@@ -30,6 +31,9 @@ for (let i = 0; i < process.argv.length; i++) {
   if (arg === '--help' || arg === '-h') {
     console.log(fs.readFileSync(__dirname + '/README.md', 'utf-8'));
     process.exit(0);
+  }
+  if (arg === '--cache' || arg === '-c') {
+    useCaching = true;
   }
 }
 if (port == null) {
@@ -109,10 +113,10 @@ if (useHttps) {
 }
 app.use(
   express.static(root, {
-    etag: false,
-    maxAge: 0,
-    lastModified: false,
-    immutable: false,
+    etag: useCaching,
+    lastModified: useCaching,
+    immutable: useCaching,
+    maxAge: useCaching ? 10000000 : 0,
   })
 );
 // Possible future alternative to LOCAL_DEVELOPMENT flag
@@ -137,7 +141,7 @@ openssl req -x509 -newkey rsa:4096 -nodes -keyout key.pem -out cert.pem -days 36
   }
 } else {
   app.listen(port, () => {
-    console.log(`Serving ${root} on http://localhost:${port}/`);
+    console.log(`Serving ${root} on http://localhost:${port}/, Caching ${useCaching ? 'allowed' : 'prohibited'}.`);
     if (apiRoot) {
       console.log(
         `Serving o3h.js from ${apiRoot}/o3h.js. If you have a copy of the SDK you might want to symbolic link this file to it!`

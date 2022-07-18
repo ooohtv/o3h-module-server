@@ -22,6 +22,8 @@ in the directory you would like to serve from.
 
 `--api <path>` or `-a <path>` — Proxy calls to the Oooh API to the local filesystem, defaults to the live version on module.oooh.io.
 
+`--cache` or `-c` — Allows files to be cached by the device, simulating real-world loading. Defaults to false, for development purposes.
+
 Provide a path, and requests for the relative path "/api/o3h.js" are served from `<path>/o3h.js`.
 
 Omit this argument and requests for the relative path "/api/o3h.js" are proxied to https://module.oooh.io/api/o3h.js.
