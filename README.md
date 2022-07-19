@@ -9,8 +9,8 @@ A simple http server for static Oooh module content &amp; the Oooh API. Serves f
 ## To run
 
 In its simplest form, run
- 
-```o3h-module-server```
+
+`o3h-module-server`
 
 in the directory you would like to serve from.
 
@@ -31,6 +31,5 @@ In both cases, the `LOCAL_DEVELOPMENT` variable will be modified to `true` for y
 `--no-case-sensitive` or `-C` — Turn OFF case sensitivity, serve files regardless of their case. This is a bad idea, our server is case sensitive, which is the default. Leaving this on helps you debug potential issues
 
 `--https` or `-s` — Serve using https. You'll need a `key.pem` and `cert.pem` file; instructions to generate them will be provided if not found.
-
 
 `--no-cache` or `-H` — By default, files are served with caching, simulating real-world loading. Use this flag to disable caching.

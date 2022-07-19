@@ -3,7 +3,10 @@ const fs = require('fs');
 const path = require('path');
 const https = require('https');
 const express = require('express');
+const PACKAGE = require('./package.json');
 const { createProxyMiddleware, responseInterceptor } = require('http-proxy-middleware');
+
+console.log(`${PACKAGE.name} v${PACKAGE.version}\n`);
 
 // commandline options --------------------------------
 let root = '.';
@@ -29,12 +32,12 @@ for (let i = 0; i < process.argv.length; i++) {
   if (arg === '--https' || arg === '-s') {
     useHttps = true;
   }
+  if (arg === '--no-cache' || arg === '-H') {
+    useCaching = false;
+  }
   if (arg === '--help' || arg === '-h') {
     console.log(fs.readFileSync(__dirname + '/README.md', 'utf-8'));
     process.exit(0);
-  }
-  if (arg === '--no-cache' || arg === '-H') {
-    useCaching = false;
   }
 }
 if (port == null) {
