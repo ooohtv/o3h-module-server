@@ -10,7 +10,7 @@ let port = null;
 let useHttps = false;
 let apiRoot = null;
 let caseSensitive = true;
-let useCaching = false;
+let useCaching = true;
 for (let i = 0; i < process.argv.length; i++) {
   const arg = process.argv[i];
   if ((arg === '--port' || arg === '-p') && i < process.argv.length - 1) {
@@ -32,8 +32,8 @@ for (let i = 0; i < process.argv.length; i++) {
     console.log(fs.readFileSync(__dirname + '/README.md', 'utf-8'));
     process.exit(0);
   }
-  if (arg === '--cache' || arg === '-c') {
-    useCaching = true;
+  if (arg === '--no-cache' || arg === '-H') {
+    useCaching = false;
   }
 }
 if (port == null) {

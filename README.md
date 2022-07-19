@@ -32,4 +32,5 @@ In both cases, the `LOCAL_DEVELOPMENT` variable will be modified to `true` for y
 
 `--https` or `-s` — Serve using https. You'll need a `key.pem` and `cert.pem` file; instructions to generate them will be provided if not found.
 
-`--cache` or `-c` — Allows files to be cached by the device, simulating real-world loading. Defaults to false, for development purposes.
+
+`--no-cache` or `-H` — By default, files are served with caching, simulating real-world loading. Use this flag to disable caching.
