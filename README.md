@@ -22,8 +22,6 @@ in the directory you would like to serve from.
 
 `--api <path>` or `-a <path>` — Proxy calls to the Oooh API to the local filesystem, defaults to the live version on module.oooh.io.
 
-`--cache` or `-c` — Allows files to be cached by the device, simulating real-world loading. Defaults to false, for development purposes.
-
 Provide a path, and requests for the relative path "/api/o3h.js" are served from `<path>/o3h.js`.
 
 Omit this argument and requests for the relative path "/api/o3h.js" are proxied to https://module.oooh.io/api/o3h.js.
@@ -33,3 +31,5 @@ In both cases, the `LOCAL_DEVELOPMENT` variable will be modified to `true` for y
 `--no-case-sensitive` or `-C` — Turn OFF case sensitivity, serve files regardless of their case. This is a bad idea, our server is case sensitive, which is the default. Leaving this on helps you debug potential issues
 
 `--https` or `-s` — Serve using https. You'll need a `key.pem` and `cert.pem` file; instructions to generate them will be provided if not found.
+
+`--cache` or `-c` — Allows files to be cached by the device, simulating real-world loading. Defaults to false, for development purposes.
