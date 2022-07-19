@@ -1,6 +1,6 @@
 {
   "name": "o3h-module-server",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "A simple http server for static Oooh module content & the Oooh API",
   "main": "index.js",
   "scripts": {
@@ -23,7 +23,8 @@
   "homepage": "https://github.com/ooohtv/o3h-module-server#readme",
   "dependencies": {
     "express": "^4",
-    "http-proxy-middleware": "^1"
+    "http-proxy-middleware": "^1",
+    "ip": "^1"
   },
   "devDependencies": {
     "prettier": "^2"

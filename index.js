@@ -1,3 +1,4 @@
+const ip = require('ip');
 const fs = require('fs');
 const path = require('path');
 const https = require('https');
@@ -141,13 +142,14 @@ openssl req -x509 -newkey rsa:4096 -nodes -keyout key.pem -out cert.pem -days 36
   }
 } else {
   app.listen(port, () => {
-    console.log(`Serving ${root} on http://localhost:${port}/, Caching ${useCaching ? 'allowed' : 'prohibited'}.`);
+    console.log(
+      `Serving ${root} on http://${ip.address()}:${port}/, Caching ${useCaching ? 'allowed' : 'prohibited'}.`
+    );
     if (apiRoot) {
       console.log(
         `Serving o3h.js from ${apiRoot}/o3h.js. If you have a copy of the SDK you might want to symbolic link this file to it!`
       );
-    } else {
-      console.log('Proxying o3h.js from https://module.oooh.io/api/o3h.js.');
+      // otherwise HPM already logs messages about proxying to console
     }
   });
 }
